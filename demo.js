@@ -28,6 +28,16 @@ checkBox.state(function(x){
     console.log("Checkbox state:", x);
 })
 
-var radiobtn = new MyToolkit.RadioButton;
+var radiobtn = new MyToolkit.RadioButton(7);
 
 radiobtn.move(400,10);
+
+radiobtn.label(["radio1", "radio2", "radio3", "radio4", "radio5"]);
+
+radiobtn.onclick(function(x){
+	console.log('Radiobutton clicked:', x);
+});
+
+radiobtn.state(function(x){
+    console.log("Radiobutton state:", x);
+})
