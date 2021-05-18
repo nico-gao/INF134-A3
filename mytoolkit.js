@@ -288,7 +288,6 @@ var MyToolkit = (function() {
         var typeEvent = null
         var widgetState = "idle"
         var stateEvent = null
-        var hovered = false;
 
         var width = 300
 
@@ -342,7 +341,80 @@ var MyToolkit = (function() {
             }
         }
     }
-return {Button, CheckBox, RadioButton, TextBox, ProgressBar}
+
+    var ToggleButton = function(){
+        var changeState = function(){
+            if (stateEvent != null){
+                stateEvent(widgetState)
+            }
+        }
+
+        var clickEvent = null
+        var widgetState = "idle"
+        var stateEvent = null
+
+        var position = "left";
+        var x_pos = 0;
+       
+        var togglebtn = draw.group();
+        var rect = togglebtn.rect(60,30).fill(lightCyan)
+        rect.radius(15)
+        var circle = togglebtn.circle(30).fill(darkCyan)
+
+        var label = togglebtn.text("")
+        label.move(70,0)
+        
+        togglebtn.mouseover(function(){
+            widgetState = "hover"
+            rect.attr('cursor', 'pointer')
+            changeState()
+        })
+        togglebtn.mouseout(function(){
+            widgetState = "idle"
+            changeState()
+        })
+        togglebtn.mousedown(function(){
+            widgetState = "pressed"
+            changeState()
+        })
+        togglebtn.mouseup(function(event){
+            if (widgetState == "pressed"){
+                if (position == "left"){
+                    rect.fill({color: strongCyan})
+                    circle.x(x_pos+30)
+                    position = "right"
+                }
+                else{
+                    rect.fill({color: lightCyan})
+                    circle.x(x_pos)
+                    position = "left"
+                }
+                widgetState = "idle"
+                changeState()
+                if(clickEvent != null){
+                    clickEvent(event)
+                }
+            } 
+        })
+        
+        return {
+            move: function(x, y) {
+                togglebtn.move(x, y);
+                x_pos = x
+            },
+            onclick: function(eventHandler){
+                clickEvent = eventHandler
+            },
+            label: function(x){
+                label.text(x)
+            },
+            state: function(eventHandler){
+                stateEvent = eventHandler;
+            }
+        }
+    }
+
+return {Button, CheckBox, RadioButton, TextBox, ProgressBar, ToggleButton}
 }());
 
 export{MyToolkit}

@@ -70,3 +70,16 @@ progressbar.state(function(x){
 
 progressbar.increment(70);
 
+var togglebtn = new MyToolkit.ToggleButton;
+
+togglebtn.move(10, 450);
+
+togglebtn.label("toggle button");
+
+togglebtn.onclick(function(x){
+	console.log('Toggle Button clicked:', x);
+});
+
+togglebtn.state(function(x){
+    console.log("Toggle Button state: " + x);
+})
