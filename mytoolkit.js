@@ -22,12 +22,14 @@ var MyToolkit = (function() {
        
         var button = draw.group();
         var rect = button.rect(80,50).fill(lightCyan)
+        rect.radius(10)
         var label = button.text("")
-        label.move(10,10)
+        label.move(10,8)
         
         button.mouseover(function(){
             rect.fill({ color: darkCyan})
             widgetState = "hover"
+            rect.attr('cursor', 'pointer')
             changeState()
         })
         button.mouseout(function(){
@@ -214,7 +216,7 @@ var MyToolkit = (function() {
         var hovered = false;
 
         var textbox = draw.group();
-        textbox.rect(400,400).stroke(strongCyan).fill(lightCyan)
+        textbox.rect(400,120).stroke(strongCyan).fill(lightCyan)
         var text = textbox.text("").move(40,42)
         var caret = textbox.rect(2,15).move(50,50)
         var runner = null;
@@ -270,10 +272,77 @@ var MyToolkit = (function() {
             state: function(eventHandler){
                 stateEvent = eventHandler;
             },
-            text: text.text()
+            getText: function(){
+                return text.text()
+            }
         }
     }
-return {Button, CheckBox, RadioButton, TextBox}
+
+    var ProgressBar = function(){
+        var changeState = function(){
+            if (stateEvent != null){
+                stateEvent(widgetState)
+            }
+        }
+
+        var typeEvent = null
+        var widgetState = "idle"
+        var stateEvent = null
+        var hovered = false;
+
+        var width = 300
+
+        var bar = draw.group()
+        var progressbar = bar.rect(width,15).stroke(strongCyan).fill(lightCyan)
+        var progress = bar.rect(0,15).fill(darkCyan).move(0,1)
+
+        var increment = 10
+
+        bar.mouseover(function(){
+            widgetState = "hover"
+            changeState()
+        })
+        bar.mouseout(function(){
+            widgetState = "idle"
+            changeState()
+        })
+        
+        return {
+            move: function(x, y) {
+                bar.move(x, y);
+            },
+            ontyping: function(eventHandler){
+                typeEvent = eventHandler
+            },
+            state: function(eventHandler){
+                stateEvent = eventHandler;
+            },
+            setWidth: function(x){
+                width = x
+                progressbar.width(width)
+                
+            },
+            setIncrement: function(x){
+                let k = Math.floor(x / 100 * width)
+                increment = k
+            },
+            getIncrement: function(){
+                return increment
+            },
+            increment: function(x){
+                let k = Math.floor(x / 100 * width)
+                if (k > width){
+                    progress.width(width)
+                }
+                else{
+                    progress.width(k)
+                }
+                widgetState = "incremented"
+                changeState()
+            }
+        }
+    }
+return {Button, CheckBox, RadioButton, TextBox, ProgressBar}
 }());
 
 export{MyToolkit}

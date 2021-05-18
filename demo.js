@@ -54,4 +54,19 @@ textbox.state(function(x){
     console.log("textbox state: " + x);
 })
 
-console.log(textbox.text);
+var text = textbox.getText();
+
+console.log(text);
+
+var progressbar = new MyToolkit.ProgressBar;
+
+progressbar.move(10, 400);
+
+progressbar.setWidth(400);
+
+progressbar.state(function(x){
+    console.log("progressbar state: " + x);
+})
+
+progressbar.increment(70);
+
