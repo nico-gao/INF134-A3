@@ -11,7 +11,7 @@ btn.onclick(function(x){
 });
 
 btn.state(function(x){
-    console.log("Button state:", x);
+    console.log("Button state: " + x);
 })
 
 var checkBox = new MyToolkit.CheckBox;
@@ -25,19 +25,33 @@ checkBox.onclick(function(x){
 });
 
 checkBox.state(function(x){
-    console.log("Checkbox state:", x);
+    console.log("Checkbox state: " + x);
 })
 
-var radiobtn = new MyToolkit.RadioButton(7);
+var radiobtn = new MyToolkit.RadioButton(3);
 
 radiobtn.move(400,10);
 
-radiobtn.label(["radio1", "radio2", "radio3", "radio4", "radio5"]);
+radiobtn.label(["radio1", "radio2", "radio3"]);
 
 radiobtn.onclick(function(x){
-	console.log('Radiobutton clicked:', x);
+	console.log('Radiobutton ' + x.target.id + " is selected");
 });
 
 radiobtn.state(function(x){
-    console.log("Radiobutton state:", x);
+    console.log("Radiobutton state: " + x);
 })
+
+var textbox = new MyToolkit.TextBox;
+
+textbox.move(10, 200);
+
+textbox.ontyping(function(x){
+	console.log('textbox text changed:', x);
+});
+
+textbox.state(function(x){
+    console.log("textbox state: " + x);
+})
+
+console.log(textbox.text);
