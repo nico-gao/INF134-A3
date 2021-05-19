@@ -2,13 +2,30 @@
 
 import {SVG} from './svg.min.js';
 
+/**
+ * Represent MyToolKit
+ * @constructor
+ * @returns {Button}
+ * @returns {CheckBox}
+ * @returns {RadioButton}
+ * @returns {TextBox}
+ * @returns {ScrollBar}
+ * @returns {ProgressBar}
+ * @returns {ToggleButton}
+ */
 var MyToolkit = (function() {
-    var cyan = "#89f0e5";
     var darkCyan = "#9cd9d3"
     var lightCyan = "#d3f0ed"
     var strongCyan = "#579690"
     var draw = SVG().addTo('body').size('100%','100%');
     
+    /**
+     * Create a Button
+     * @returns {move} - a custom move property to set the position of Button
+     * @returns {label} - a custom label property to set the text that appears on the button
+     * @returns {onclick} - an event handler that notifies consuming code when the button is clicked
+     * @returns {state} - an event handler that notifies consuming code when the widget state has changed
+     */
     var Button = function(){
         var changeState = function(){
             if (stateEvent != null){
@@ -69,6 +86,13 @@ var MyToolkit = (function() {
         }
     }
 
+    /**
+     * Create a CheckBox
+     * @returns {move} - a custom move property to set the position of CheckBox
+     * @returns {label} - a custom label property to set the text that appears to the right of the check box
+     * @returns {onclick} - an event handler that notifies consuming code when the checked state has changed
+     * @returns {state} - an event handler that notifies consuming code when the widget state has changed
+     */
     var CheckBox = function(){
         var changeState = function(){
             if (stateEvent != null){
@@ -131,6 +155,14 @@ var MyToolkit = (function() {
         }
     }
 
+    /**
+     * Create a RadioButton
+     * @param {number} n - the number of buttons, takes a number from 2 to n
+     * @returns {move} - a custom move property to set the position of RadioButton
+     * @returns {label} - a custom label property to set the text that appears to the right of each button, takes an array of string
+     * @returns {onclick} - an event handler that notifies consuming code when the checked state has changed and which n has been checked
+     * @returns {state} - an event handler that notifies consuming code when the widget state has changed
+     */
     var RadioButton = function(n){
         var changeState = function(){
             if (stateEvent != null){
@@ -203,6 +235,13 @@ var MyToolkit = (function() {
         }
     }
 
+    /**
+     * Create a TextBox
+     * @returns {move} - a custom move property to set the position of TextBox
+     * @returns {ontyping} - an event handler that notifies consuming code when the text has changed
+     * @returns {state} - an event handler that notifies consuming code when the widget state has changed
+     * @returns {getText} -  a custom property to get the text entered by the user
+     */
     var TextBox = function(){
         var changeState = function(){
             if (stateEvent != null){
@@ -278,6 +317,12 @@ var MyToolkit = (function() {
         }
     }
 
+    /**
+     * Create a ScrollBar
+     * @returns {move} - a custom move property to set the position of ScrollBar
+     * @returns {setHeight} -  a custom property to set the height of the scroll bar
+     * @returns {state} - an event handler that notifies consuming code when the scroll thumb has moved and in which direction, and notifies consuming code when the widget state has changed
+     */
     var ScrollBar = function(){
         var changeState = function(){
             if (stateEvent != null){
@@ -409,6 +454,15 @@ var MyToolkit = (function() {
         }
     }
 
+    /**
+     * Create a ProgressBar
+     * @returns {move} - a custom move property to set the position of ProgressBar
+     * @returns {setWidth} - a custom property to set the width of the progress bar
+     * @returns {setIncrement} - a custom property to set the increment value of the progress bar
+     * @returns {getIncrement} - a custom property to get the increment value of the progress bar
+     * @returns {increment} - a custom method to increment the value of the progress bar. The method supports an arbitrary numerical value from 0-100.
+     * @returns {state} - an event handler that notifies consuming code when the progress bar has incremented, and notifies consuming code when the widget state has changed
+     */
     var ProgressBar = function(){
         var changeState = function(){
             if (stateEvent != null){
@@ -473,6 +527,13 @@ var MyToolkit = (function() {
         }
     }
 
+    /**
+     * 
+     * @returns {move} - a custom move property to set the position of ToggleButton
+     * @returns {label} - a custom label property to set the text on the button
+     * @returns {onclick} - an event handler that notifies consuming code when the button is clicked
+     * @returns {state} - an event handler that notifies consuming code when the widget state has changed
+     */
     var ToggleButton = function(){
         var changeState = function(){
             if (stateEvent != null){
