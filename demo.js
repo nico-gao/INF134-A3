@@ -58,6 +58,22 @@ var text = textbox.getText();
 
 console.log(text);
 
+var scrollbar = new MyToolkit.ScrollBar;
+
+scrollbar.move(500, 200)
+
+scrollbar.setHeight(450)
+
+console.log(scrollbar.getPosition())
+
+scrollbar.onclick(function(x){
+	console.log('Scrollbar clicked');
+});
+
+scrollbar.state(function(x){
+    console.log("Scrollbar state: " + x);
+})
+
 var progressbar = new MyToolkit.ProgressBar;
 
 progressbar.move(10, 400);
@@ -69,6 +85,7 @@ progressbar.state(function(x){
 })
 
 progressbar.increment(70);
+
 
 var togglebtn = new MyToolkit.ToggleButton;
 

@@ -278,6 +278,137 @@ var MyToolkit = (function() {
         }
     }
 
+    var ScrollBar = function(){
+        var changeState = function(){
+            if (stateEvent != null){
+                stateEvent(widgetState)
+            }
+        }
+
+        var y_pos = 25;
+
+        var clickEvent = null
+        var widgetState = "idle"
+        var stateEvent = null
+        var pressed = false
+        var height = 350
+
+        var scrollbar = draw.group()
+        var barOnly = draw.group()
+        var upRect = draw.group()
+        var downRect = draw.group()
+        
+        scrollbar.add(upRect)
+        scrollbar.add(downRect)
+        scrollbar.add(barOnly)
+
+        var bar = barOnly.rect(25, height).fill(lightCyan)
+        var up = upRect.rect(25,25).fill(darkCyan)
+        var upArrow = upRect.text("▴").move(8, 2)
+        var down = downRect.rect(25,25).fill(darkCyan)
+        var downArrow = downRect.text("▾").move(8, 2)
+        var scroll = barOnly.rect(25,40).stroke(strongCyan).fill(darkCyan)
+
+        bar.attr("id", "bar")
+        scroll.attr("id", "scroll")
+
+        upRect.move(0,-25)
+        downRect.move(0,height)
+
+
+        barOnly.mouseover(function(){
+            widgetState = "hover"
+            changeState()
+        })
+        barOnly.mouseout(function(){
+            widgetState = "idle"
+            changeState()
+        })
+
+        barOnly.click(function(event){
+            if (event.target.id == "bar"){
+                scroll.y(event.clientY - 20)
+                widgetState = "moving scroll thumb"
+                changeState()
+            }
+        })
+
+        barOnly.mousedown(function(event){
+            if (event.target.id == "scroll"){
+                widgetState = "pressed"
+                pressed = true
+                changeState()
+            }
+        })
+
+        barOnly.mouseup(function(event){
+            if (pressed){
+                pressed = false
+            }
+            widgetState = "idle"
+            changeState()
+        })
+
+        barOnly.mousemove(function(event){
+            if (pressed){
+                if ((scroll.y() >= y_pos) && (scroll.y() <= y_pos + height - 40)){
+                    scroll.y(event.clientY)
+                }
+                if (event.clientY <= y_pos){
+                    scroll.y(y_pos)
+                }
+                else if (event.clientY >= y_pos + height - 40){
+                    scroll.y(y_pos + height - 40)
+                }
+                widgetState = "scrolling"
+                changeState()
+            }
+        })
+
+        upRect.click(function(event){
+            if (scroll.y() > y_pos+20){
+                scroll.dy(-20)
+            }
+            else{
+                scroll.y(y_pos)
+            }
+            widgetState = "scrolling up"
+            changeState()
+        })
+
+        downRect.click(function(event){
+            if (scroll.y() < y_pos + height - 60){
+                scroll.dy(20)
+            }
+            else{
+                scroll.y(y_pos + height - 40)
+            }
+            widgetState = "scrolling down"
+            changeState()
+        })
+        
+        return {
+            move: function(x, y) {
+                y_pos = y + 25
+                scrollbar.move(x, y);
+            },
+            onclick: function(eventHandler){
+                clickEvent = eventHandler
+            },
+            state: function(eventHandler){
+                stateEvent = eventHandler;
+            },
+            setHeight: function(x){
+                downRect.dy(x-height)
+                height = x
+                bar.height(height)   
+            },
+            getPosition: function(){
+                return scroll.attr(['x', 'y'])
+            }
+        }
+    }
+
     var ProgressBar = function(){
         var changeState = function(){
             if (stateEvent != null){
@@ -350,7 +481,7 @@ var MyToolkit = (function() {
         }
 
         var clickEvent = null
-        var widgetState = "idle"
+        var widgetState = "right toggled"
         var stateEvent = null
 
         var position = "left";
@@ -370,7 +501,12 @@ var MyToolkit = (function() {
             changeState()
         })
         togglebtn.mouseout(function(){
-            widgetState = "idle"
+            if (position == "right"){
+                widgetState = "right toggled"
+            }
+            else {
+                widgetState = "left toggled"
+            }
             changeState()
         })
         togglebtn.mousedown(function(){
@@ -383,13 +519,14 @@ var MyToolkit = (function() {
                     rect.fill({color: strongCyan})
                     circle.x(x_pos+30)
                     position = "right"
+                    widgetState = "right toggled"
                 }
                 else{
                     rect.fill({color: lightCyan})
                     circle.x(x_pos)
                     position = "left"
+                    widgetState = "left toggled"
                 }
-                widgetState = "idle"
                 changeState()
                 if(clickEvent != null){
                     clickEvent(event)
@@ -414,7 +551,7 @@ var MyToolkit = (function() {
         }
     }
 
-return {Button, CheckBox, RadioButton, TextBox, ProgressBar, ToggleButton}
+return {Button, CheckBox, RadioButton, TextBox, ProgressBar, ToggleButton, ScrollBar}
 }());
 
 export{MyToolkit}
